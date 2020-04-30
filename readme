@@ -10,3 +10,49 @@ If you've come to watch the journey, sit back and relax! I'll be working on it o
 If you've come to assist in the coding/give helpful insight into what I could be doing... then I'd love the help!
 
 Note: you can send over an e-mail (find it on the account) if you'd want to get in touch.
+
+UPDATE (29/4/2020):
+I have rewritten the original to be a lot better. Here's what I have so far:
+
+.r ==> Our 'roll' command. 
+
+It accepts a parameter (or multiple) that look like this... .r d4 d4+2 2d4 2d4+2
+It does have some limitations but it will give an error message and prevent these limitations from being reached.
+
+.dm
+.dmset
+.dmrem
+
+These are all lumped together as the 'Dungeon Master' commands.
+.dm will show the current Dungeon Master if possible.
+.dmset will set the User who sent the command as the Dungeon Master.
+.dmrem will remove the current Dungeon Master if possible.
+Not much is done with this information... I haven't implemented a single thing to function with knowing who the DM is.
+Perhaps that could change in the future...
+
+.il
+.iladd
+.ilrem
+.ilshow
+
+These are the 'Initiative List' commands.
+.il will show the current Initiative List if possible.
+
+.iladd (initiative) (name...) will add a creature to the Initiative List with the respective name and initiative.
+Note: when sent from a 'public' channel the creature will be set to 'Shown' wherein its name will appear in full.
+If the command is sent to D&D Bot in a 'direct message' then the creature will be set to 'Hidden'.
+A creature that is 'Hidden' will have its name show up like this:
+Example: .iladd 19 DNDBOT ==> D***
+1st character of the name will appear followed by some asterisks.
+
+.ilrem (name...) will remove a creature from the Initiative List with the same name.
+Note: if there are two creatures on the list with the same name it will remove the one with the higher initiative first.
+
+.ilshow is used to change a creature from 'Hidden' to 'Shown'.
+
+I've also added a .s command used to play some sound files located in "res\sound"
+This is mainly for fun. You can add your own files, and they are summoned via typing in their name.
+.s (name...)
+
+Note: files must be .mp3 or it will fail to find them.
+
