@@ -55,4 +55,8 @@ This is mainly for fun. You can add your own files, and they are summoned via ty
 .s (name...)
 
 Note: files must be .mp3 or it will fail to find them.
+Another Note: I am looking to upgrade this .s command to work a lot better and be able to queue things up but...
+it isn't an essential part to this bot so I'm putting it on the backburner while I figure out how to interact with
+a D&D api so that people can search items and stuff with the bot.
 
+last note: i wrote the majority of this readme while tired and I will update it and format it a lot more nicely... but later
