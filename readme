@@ -1,62 +1,155 @@
-Hi!
+Hello!
 
-If you've found this... good job! I just started on this project (27/4/2020).
+I started this project on 27, 4, 2020.
+Discord became the standard platform for D&D sessions with friends during the COVID-19 situation.
+We had to change up how we operated in order to continue during this time.
+It was simple to continue using paper as we used to... but I thought a few things could be upgraded to an electronic format.
+These thoughts occurred to me because I had just begun to learn Python and saw that there was a neat Discord package.
+It began.
 
-I will be making a (semi) coherent 'D&D Bot' for Discord.
-It will be able to roll dice, keep an initiative list, and search for D&D-related info (somehow).
-I'm sure I will add more functionality to it later on.
+I will be working on this for a little while until the 'bot' is able to do all the things that I want it to.
+The list of things that I want it to be able to do could change over time... but I have a list to start with:
+1. Roll Dice.
+2. Keep Track of Initiative.
+3. Keep Track of DM (& allow them to see extra information about the session).
+4. Search for D&D-related information using the 5e API (from http://www.dnd5eapi.co/ <== this thing is awesome!).
+5. ...
 
-If you've come to watch the journey, sit back and relax! I'll be working on it often.
-If you've come to assist in the coding/give helpful insight into what I could be doing... then I'd love the help!
+I am beginning with the construction of it and I won't be stopping until I have satisfied these requirements.
+If you've stumbled across this and would like to get it for yourself or help out then that would be fine!
+I have an e-mail that I can be reached on github (in the profile).
+Feel free to send a message about possible improvements or if you're interested in getting this for yourself.
 
-Note: you can send over an e-mail (find it on the account) if you'd want to get in touch.
+(I know that this isn't a normal 'readme' but... I felt it was right.)
 
-UPDATE (29/4/2020):
-I have rewritten the original to be a lot better. Here's what I have so far:
+//
 
-.r ==> Our 'roll' command. 
+Update: 29/4/2020
 
-It accepts a parameter (or multiple) that look like this... .r d4 d4+2 2d4 2d4+2
-It does have some limitations but it will give an error message and prevent these limitations from being reached.
+Hello there!
 
-.dm
-.dmset
-.dmrem
+I had some mangled code to make things work but... I needed to re-do the whole thing!
+I have rewritten the original and it works a lot better now. Here's what I have so far:
 
-These are all lumped together as the 'Dungeon Master' commands.
-.dm will show the current Dungeon Master if possible.
-.dmset will set the User who sent the command as the Dungeon Master.
-.dmrem will remove the current Dungeon Master if possible.
-Not much is done with this information... I haven't implemented a single thing to function with knowing who the DM is.
-Perhaps that could change in the future...
+1. Roll Dice.
+==> Our .r command is WORKING!
+    It works like this: .r d4 (roll a d4 with no modifier).
+                        .r 2d4 (roll two d4 with no modifier).
+                        .r d4+2 (roll a d4 with a +2 modifier).
+                        .r 2d4+2 (roll two d4 with a +2 modifier).
+                        .r 2d6+2 4d20+7 9d12+10 d4 d8+5 (roll two d6 with a +2 modifier and 4 d20 with a +7 modifier and.....)
+                                                        (well... I think this will get redundant. I hope that it makes sense!)
+    
+    Our .r command takes a series of inputs formatted like this:
+    .r (# of dice)(die to be rolled)(modifier)
+    Note: do not put spaces in between these! Put a space between the different inputs.
+    
+    This command takes those inputs and parses them (with 100% success... so far).
+    Then it will roll the die and print the results out into a nice 'embed' message in the Discord channel from which the
+    command was sent.
+    
+2. Keep Track of Initiate.
+==> Our .il .iladd .ilrem .ilshow commands are capable of this!
 
-.il
-.iladd
-.ilrem
-.ilshow
+    Let's break down all these commands. I'll start with: .iladd
+    It works like this: .iladd 19 Rogue (add a 'Rogue' to the Initiative List with a '19')
+                        .iladd 20 Goblin (add a 'Goblin' to the Initiative List with a '20')
+                        .iladd 23 Spider (add a 'Spider' to the Initiative List with a '23')
+                        .iladd 1 Bad Roll (add a 'Bad Roll' to the Initiative List with a '1')
+    
+    Our .iladd command takes two inputs like this:
+    .iladd (initiative) (name)
+    
+    It takes these inputs and puts them into the Initiative List.
+    Then it will give a confirmation message inside the channel the command was sent from.
+    
+    One more thing: there is a 'Hidden' value attached to these entries in the Initiative List.
+    When an item is 'Hidden' the name will not be shown... like this: 'Rogue' would become 'R***'
+    When the .iladd command is sent from a public channel the item will not be 'Hidden'.
+    When the .iladd command is sent from a direct message the item will be 'Hidden'.
+    This can be used to add invisible creatures to the Initiative List without spoiling the surprise!
+    
+    Let's do .ilrem next...
+    It works like this: .ilrem Rogue (remove a 'Rogue' from the Initiative List)
+                        .ilrem Goblin (remove a 'Goblin' from the Initiative List)
+                        .ilrem Bad Roll (remove a 'Bad Roll' from the Initiative List)
+    
+    This command is simple:
+    .ilrem (name)
+    
+    It will attempt to find an item in the Initiative List with the matching name.
+    If it is found then it will be deleted. Quick and simple!
+    
+    Note: if there are multiples of a name then the name with the higher initiative will be deleted first.
+    Note: if the multiples of a name have the same initiative then the one added to the list first will be deleted first.
+    (I'm going to work on a potential... upgrade for this but...)
+    (I think it boils down to having unique names for the items in the first place.)
+    
+    Next... let's have a look at .ilshow!
+    It works like this: .ilshow Rogue (show a 'Hidden' 'Rogue' on the Initiative List)
+                        .ilshow Goblin (show a 'Hidden' 'Goblin' on the Initiative List)
+                        
+    Another simple command:
+    .ilshow (name)
+    
+    It will attempt to find a 'Hidden' item in the Initiative List with the matching name.
+    If found: show it!
 
-These are the 'Initiative List' commands.
-.il will show the current Initiative List if possible.
+    And .il would be our final command to look at here...
+    It works like this: .il
+    
+    This is the simplest one of them all! On the User's side... at least...
+    .il
+    
+    It will show the Initiative List.
+    It sorts the list based on Initiative values and then adds it all to an 'embed' message to be sent to the channel
+    from which it was requested.
+    
+    (I am thinking of changing how the 'Hidden' value works. I might make a 'Hidden' item not show when the Initiative List)
+    (is requested from a User that is NOT the Dungeon Master. Rather... the item will show when the Dungeon Master requests)
+    (the Initiative List in a direct message to the bot. I'm still pondering this change...)
+    
+3. Keep Track of DM
+==> Our .dm .dmset and .dmrem commands are up to snuff!
 
-.iladd (initiative) (name...) will add a creature to the Initiative List with the respective name and initiative.
-Note: when sent from a 'public' channel the creature will be set to 'Shown' wherein its name will appear in full.
-If the command is sent to D&D Bot in a 'direct message' then the creature will be set to 'Hidden'.
-A creature that is 'Hidden' will have its name show up like this:
-Example: .iladd 19 DNDBOT ==> D***
-1st character of the name will appear followed by some asterisks.
+    Let's have a look at all of them together because these are simple commands.
+    It works like this: .dmset (sets the Dungeon Master to the User that sent the command)
+                        .dmrem (removes the current Dungeon Master)
+                        .dm (shows the current Dungeon Master)
+                        
+    None of these commands require an extra input.
+    All of them work just fine but there isn't much interaction with the 'DM' tag right now.
+    It has no impact on the rest of the functions of the bot.
+    So... I guess it's a placeholder for now. I might do cool stuff with it later.
+    
+4. Search for D&D-related information.
+==> :( I haven't figured this one out... but I will! (Soon...?)
 
-.ilrem (name...) will remove a creature from the Initiative List with the same name.
-Note: if there are two creatures on the list with the same name it will remove the one with the higher initiative first.
+5. BONUS ROUND!
+==> .s command is used to grab audio clips from a /sound file in our bot folder.
 
-.ilshow is used to change a creature from 'Hidden' to 'Shown'.
+    It works like this: .s aaaa (will find /res/sound/aaaa.mp3 and play it through Discord)
+                        .s run (will find /res/sound/run.mp3 and play it through Discord)
+                        
+    It isn't a complicated command.
+    .s (filename)
+    
+    Note: the file must be a .mp3 file (for now). I haven't done too much work on this command so it is a little... bad.
+    Note: there is no 'queue' available for the bot. It will ignore a command sent while it is playing a sound file.
+    
+    (I swear I will work on this and make it work better but it was a side thing that was for laughs... so I'm not that)
+    (focused on fixing it at the moment. I got it to work and that's all that I care about at the moment.)
+    
+Well... that's all for this update!
+I am working on 4. Search for D&D-related information. It's taking me a little bit to figure out!
+(I'm not that good with doing all of this stuff... but I think I'm OK! I did make this all work!)
 
-I've also added a .s command used to play some sound files located in "res\sound"
-This is mainly for fun. You can add your own files, and they are summoned via typing in their name.
-.s (name...)
+Other than that... I might look into how to make this bot work well on other servers (akin to how Rythym works).
+But... I find that it's a little daunting to look at! I will still attempt it at the least.
 
-Note: files must be .mp3 or it will fail to find them.
-Another Note: I am looking to upgrade this .s command to work a lot better and be able to queue things up but...
-it isn't an essential part to this bot so I'm putting it on the backburner while I figure out how to interact with
-a D&D api so that people can search items and stuff with the bot.
+I will also look into making a logger for the bot. It would be nice to have logs in case things go wrong.
+(I will need it if I get this bot to work across multiple servers).
 
-last note: i wrote the majority of this readme while tired and I will update it and format it a lot more nicely... but later
+Peace!
+
+//
